@@ -2,7 +2,6 @@ package com.kristiania.lecture.databasedemo.ui.details
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kristiania.lecture.databasedemo.R
@@ -26,36 +25,31 @@ class StudentFragment : Fragment(R.layout.student_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Init
         binding = StudentFragmentBinding.bind(view)
+
         studentID = arguments?.getLong("studentID")
-        viewModel.init(requireContext(), studentID)
+        // Init view model
+
+        // Observers
         observeData()
+        // View listeners
         initViewListeners()
     }
 
     private fun initViewListeners() {
         with(binding) {
             saveButton.setOnClickListener {
-                viewModel.saveData(
-                    id = studentID,
-                    name = name.text?.toString(),
-                    course = course.text?.toString()
-                )
+                // If student Id is null save the new data else update the record.
             }
         }
     }
 
     private fun observeData() {
-        viewModel.studentLiveData.observe(viewLifecycleOwner) {
-            with(binding) {
-                saveButton.setText(R.string.update)
-                name.setText(it.name)
-                course.setText(it.course)
-            }
-        }
 
-        viewModel.messageLiveData.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-        }
+        // Observe student live data
+
+        // Observe the messages from view-model.
+
     }
 }

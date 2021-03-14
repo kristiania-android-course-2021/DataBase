@@ -5,17 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kristiania.lecture.databasedemo.databinding.StudentItemBinding
 import com.kristiania.lecture.databasedemo.entities.Student
-
-
-/**
- *
- *
- * Created by:  Arun Pillai
- * Email: arun.vijayan.pillai@shortcut.no
- *
- * Date: 01 March 2020
- */
-
 class StudentsAdapter(val lambdaFunction: (Student) -> Unit) :
     RecyclerView.Adapter<StudentsAdapter.ViewHolder>() {
 
