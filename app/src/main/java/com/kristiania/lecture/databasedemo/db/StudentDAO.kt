@@ -7,18 +7,18 @@ import com.kristiania.lecture.databasedemo.entities.Student
 interface StudentDAO {
 
     @Insert
-    fun insert(student: Student)
+    suspend fun insert(student: Student)
 
     @Update
-    fun update(student: Student)
+    suspend fun update(student: Student)
 
     @Delete
-    fun delete(student: Student)
+    suspend fun delete(student: Student)
 
     @Query("SELECT * FROM student_table")
-    fun fetchAll(): List<Student>
+    suspend fun fetchAll(): List<Student>
 
     @Query("select * from student_table where id = :studentID")
-    fun getStudentWithID(studentID: Long): Student
+    suspend fun getStudentWithID(studentID: Long): Student
 
 }

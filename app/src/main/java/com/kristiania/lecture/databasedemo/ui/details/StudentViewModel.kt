@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.kristiania.lecture.databasedemo.db.DataBase
 import com.kristiania.lecture.databasedemo.db.StudentDAO
 import com.kristiania.lecture.databasedemo.entities.Student
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class StudentViewModel : ViewModel() {
@@ -28,29 +27,26 @@ class StudentViewModel : ViewModel() {
     }
 
     private fun getStudent(studentID: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _studentLiveData.postValue(studentDao.getStudentWithID(studentID))
+        viewModelScope.launch {
+            _studentLiveData.value = studentDao.getStudentWithID(studentID)
         }
     }
 
     fun saveData(name: String?, course: String?) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (!name.isNullOrEmpty() && !course.isNullOrEmpty()) {
                 try {
                     studentDao.insert(Student(name = name, course = course))
-                    studentDao.fetchAll()
                 } catch (e: Exception) {
                     e.fillInStackTrace()
                 }
-
-
             }
         }
 
     }
 
     fun updateData(id: Long, name: String?, course: String?) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (!name.isNullOrEmpty() && !course.isNullOrEmpty()) {
                 studentDao.update(Student(id, name, course))
                 Log.d("", "Updated")

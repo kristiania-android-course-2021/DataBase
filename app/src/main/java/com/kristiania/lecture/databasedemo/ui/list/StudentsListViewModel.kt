@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.kristiania.lecture.databasedemo.db.DataBase
 import com.kristiania.lecture.databasedemo.db.StudentDAO
 import com.kristiania.lecture.databasedemo.entities.Student
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class StudentsListViewModel : ViewModel() {
@@ -27,9 +26,8 @@ class StudentsListViewModel : ViewModel() {
     }
 
     private fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = studentDao.fetchAll()
-            _studentsListLiveData.postValue(data)
+        viewModelScope.launch {
+            _studentsListLiveData.value = studentDao.fetchAll()
         }
     }
 }
