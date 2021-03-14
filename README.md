@@ -10,7 +10,9 @@ We will implement a student database app that will
     - update and delete the user data from the database.
 
 ### How are we going to do this you ask?
-- Create a mainActivity and load/replace list and details fragment in the activity
+- Create a mainActivity
+    - Load/replace list and details fragment in the activity
+- Create Student List Fragment
     - Create a list fragment
 	- fetch all data and show it in a recycler view.
 	- provide a button to add a new student.
