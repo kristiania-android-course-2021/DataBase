@@ -27,29 +27,30 @@ class StudentFragment : Fragment(R.layout.student_fragment) {
         super.onViewCreated(view, savedInstanceState)
         // Init
         binding = StudentFragmentBinding.bind(view)
-
         studentID = arguments?.getLong("studentID")
         // Init view model
-
-        // Observers
-        observeData()
+        viewModel.init(requireContext(), studentID)
         // View listeners
         initViewListeners()
+
+        viewModel.studentLiveData.observe(viewLifecycleOwner) {
+            with(binding) {
+                name.setText(it.name)
+                course.setText(it.course)
+                saveButton.setText(R.string.update)
+            }
+        }
     }
 
     private fun initViewListeners() {
         with(binding) {
             saveButton.setOnClickListener {
-                // If student Id is null save the new data else update the record.
+                if (studentID == null) {
+                    viewModel.saveData(name.text.toString(), course.text.toString())
+                } else {
+                    viewModel.updateData(studentID!!, name.text.toString(), course.text.toString())
+                }
             }
         }
-    }
-
-    private fun observeData() {
-
-        // Observe student live data
-
-        // Observe the messages from view-model.
-
     }
 }

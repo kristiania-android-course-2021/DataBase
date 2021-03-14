@@ -15,7 +15,14 @@ class StudentsListFragment : Fragment(R.layout.students_list_fragment) {
         fun newInstance() = StudentsListFragment()
     }
 
-    private lateinit var adapter: StudentsAdapter
+    private val adapter = StudentsAdapter { student ->
+        parentFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragment_container,
+                StudentFragment.newInstance(studentID = student.id)
+            ).addToBackStack("StudentFragment")
+            .commit()
+    }
     private lateinit var binding: StudentsListFragmentBinding
     private val viewModel: StudentsListViewModel by viewModels()
 
@@ -24,13 +31,23 @@ class StudentsListFragment : Fragment(R.layout.students_list_fragment) {
         // Init
         binding = StudentsListFragmentBinding.bind(view)
         // Init view model
+        viewModel.init(requireContext())
 
-        // Configure List
         configureList()
-        // Observe view model
-        observers()
+        observe()
         // Listeners for view events
         viewListeners()
+    }
+
+    private fun observe() {
+        viewModel.studentsListLiveData.observe(viewLifecycleOwner) {
+            adapter.setStudentsList(it)
+        }
+    }
+
+    private fun configureList() {
+        binding.studentsList.layoutManager = LinearLayoutManager(requireContext())
+        binding.studentsList.adapter = adapter
     }
 
     private fun viewListeners() {
@@ -41,26 +58,6 @@ class StudentsListFragment : Fragment(R.layout.students_list_fragment) {
                     StudentFragment.newInstance()
                 ).addToBackStack("StudentFragment")
                 .commit()
-        }
-    }
-
-    private fun observers() {
-        // observe student list live data from view model.
-    }
-
-    private fun configureList() {
-        adapter = StudentsAdapter { student ->
-            parentFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_container,
-                    StudentFragment.newInstance(studentID = student.id)
-                ).addToBackStack("StudentFragment")
-                .commit()
-        }
-
-        with(binding.studentsList) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = adapter
         }
     }
 }
