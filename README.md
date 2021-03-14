@@ -1,16 +1,14 @@
 # DataBase
 
-## Here is the thing that we are going to do today.
+## Here is the thing that we are going to do with this project.
 We will implement a student database app that will
+- list all the students in the database.
+- Provide option to add a new student into the database.
 
-	- list all the students in the database.
-	- Provide option to add a new student into the database.
-
-	- See individual user details in a separate screen.
-	- update and delete the user data from the database.
+- See individual user details in a separate screen.
+- update and delete the user data from the database.
 
 ### How are we going to do this you ask?
-
 - Create a mainActivity and load/replace list and details fragment in the activity
     - Create a list fragment
 	- fetch all data and show it in a recycler view.
